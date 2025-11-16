@@ -49,8 +49,6 @@ How do I connect to the instance via SSH from my local desktop (any CLI terminal
 C:\Users\User\vastai\.ssh> ssh-keygen -t ed25519 -C "anirban@anodiam.com"
 Private Key: C:\Users\User\vastai\.ssh\anirban-anodiam-ssh-key   (keep this secret, never share)
 Public Key: C:\Users\User\vastai\.ssh\anirban-anodiam-ssh-key.pub   (this is what you paste into Vast)
-
-
 ----------------------------------------------------------------------------------
 
 
