@@ -1,0 +1,93 @@
+Following is the project description for "PoC: RVC cloud GPU" for Gen AI attention.
+
+PoC for "Retrieval Based Voice Cloning (RVC) AI Dev - on cloud VM.
+- Train & infer on vast.ai's remote GPU Debian VM.
+- Zero-shot-training of RVC model with different user voices.
+- Infer voice outputs in specific trained voice for any amount of speech.
+
+Git repo (public): https://github.com/anodiamadmin/rvc-gpu-poc
+Github users: Admin - anirban@anodiam.com; Dev - 1120anirban@gmail.com (Anirban) & sayan@anodiam.com (Sayan)
+
+Windows local user names: User (Anirban) & hp (Sayan).
+
+Developers are required to connect Remote Host by SSH from local VS-Code on their Windows 11 laptops to develop (edit) the codebase.
+The codebase must be linked to the above Github repository.
+
+The vast.ai Storage Volume (Persistent Disk) mounted on the Remote Host will contain all the code and required setup (and installations) for the project.
+It will also contain all the models, training data for users' voice samples and the inferenced voice outputs (RVC generated speech).
+
+The following are ready in vast.ai
+
+Storage: 1
+You have 1 volume available
+Local-27915352: Unverified; Size: 100 GB; Instances: 1
+Cost: $0.20/mo; Expires: January 1, 2026 9:55 AM
+Volume Information
+Name: Local-27915352; ID: 27915352; Machine ID: 45075; Type: Local Volume; Size: 100 GB; Cost: $0.20/mo; Location: Austria, AT
+Rented: November 16, 2025 7:55 PM; Expires: January 1, 2026 9:55 AM
+Instances using this volume: 1; Instance ID: 27915353
+
+Instances: 1
+1x RTX 3090: Unverified: 185.230.133.7: 18m: 1 mon 15d: <$0.001/hr
+Instance ID: 27915353; Host: 297758; Machine ID: 45075; Vol: Local-27915352
+Max CUDA: 13.0: 35.3 TFLOPS: VRAM 0/24.0GB: 805.2 GB/s
+DLPerf: 805.2 DLP/$/hr
+Network: 100 ports: 8.2 Mbps up: 32.9 Mbps down
+CPU: AMD EPYC 3151 4-Core Processor: 4.0/4 CPU: 0 / 32.0 GB
+Disk: BIWIN M350 1000GB: 2723.4 MB/s: 0.0 / 100.0 GB
+Motherboard: MJ11-EC1-OT: PCIE 3.0/8x: 6.3 GB/s
+Open: Access your Web UI at the port specified in your environment OPEN_BUTTON_PORT variable.
+GPU: 0% 19°C, CPU: 0.14%, Status: success, running vastai/pytorch_cuda-12.9.1-auto/jupyter
+
+I do not need any output for the current query. Subsequent Gen AI queries will be about specific requirements on which I shall be seeking answers/ suggestions.
+----------------------------------------------------------------------------------
+
+The Storage Volume and Instances were created via the vast.ai admin account anirban@anodiam.com.
+
+How do I connect to the instance via SSH from my local desktop (any CLI terminal) using anirban@anodiam.com?
+
+C:\Users\User\vastai\.ssh> ssh-keygen -t ed25519 -C "anirban@anodiam.com"
+Private Key: C:\Users\User\vastai\.ssh\anirban-anodiam-ssh-key   (keep this secret, never share)
+Public Key: C:\Users\User\vastai\.ssh\anirban-anodiam-ssh-key.pub   (this is what you paste into Vast)
+
+
+----------------------------------------------------------------------------------
+
+
+
+
+
+How do I verify that the Instance can be connected via SSH? 
+1. By vast.ai admin account anirban@anodiam.com
+2. preferably by developer accounts, 1120anirban@gmail.com (Anirban) & sayan@anodiam.com (Sayan)
+Give me step by step detailed guidance.
+----------------------------------------------------------------------------------
+
+IP & Port Info:
+Instance ID: 27915353
+Machine Copy Port: 16283
+Public IP Address: 185.230.133.7
+Instance Port Range: 16203-16263
+Ip Address Type: Static
+Local IP Addresses: 192.168.4.102 172.17.0.1
+Open Ports:
+185.230.133.7:16215 -> 1111/tcp
+185.230.133.7:16251 -> 16251/tcp
+185.230.133.7:16247 -> 22/tcp
+185.230.133.7:16203 -> 6006/tcp
+185.230.133.7:16263 -> 8080/tcp
+185.230.133.7:16243 -> 8384/tcp
+
+
+
+I want the developer accounts, 1120anirban@gmail.com (Anirban) & sayan@anodiam.com (Sayan) to access the GPU machine by SSH connection through their VS-Code  running on their personal laptops. Give me step by step guidance.
+
+
+
+
+
+
+
+
+
+
