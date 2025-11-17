@@ -1,0 +1,61 @@
+## 🐍 Python Virtual Environments & Environments
+# Virtual environments (common names)
+.venv/
+venv/
+env/
+.env/
+.virtualenvs/
+.direnv/
+.conda/
+.eggs/
+
+# Backup/staging environments
+.venv_backups/
+
+## 📦 Python Compiled & Build Files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*~
+.pytest_cache/
+.tox/
+dist/
+build/
+*.egg-info/
+
+## 🧠 AI/ML Framework Specific Directories and Caches
+# PyTorch
+# Caches for large models/datasets (e.g., Hugging Face)
+.cache/
+.hf_home/ # Hugging Face cache
+
+# Data processing/logging tools
+runs/ # Default directory for TensorBoard logs
+lightning_logs/ # Pytorch Lightning logs
+
+# Common model checkpoint/artifact directories
+checkpoints/
+models/
+artifacts/
+trained_models/
+
+# Dataset directories (often large)
+data/
+datasets/
+
+## 💻 Operating System & Editor Files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+.idea/ # PyCharm/IntelliJ
+.vscode/ # VS Code settings
+*.swp # vim
+
+## 🔒 Configuration & Secrets
+*.env
+.vscode-server/
+!template.env # Include if you use a template environment file
+
+venv-*
+backup*
