@@ -47,9 +47,10 @@ The Storage Volume and Instances were created via the vast.ai admin account anir
 How do I connect to the instance via SSH from my local desktop (any CLI terminal) using anirban@anodiam.com?
 
 C:\Users\User\vastai\.ssh> ssh-keygen -t ed25519 -C "anirban@anodiam.com"
-Private Key: C:\Users\User\vastai\.ssh\anirban-anodiam-ssh-key   (keep this secret, never share)
-Public Key: C:\Users\User\vastai\.ssh\anirban-anodiam-ssh-key.pub   (this is what you paste into Vast)
+Private Key: C:\Users\<User>\vastai\.ssh\anirban-anodiam-ssh-key   (this is to be kept secret, never shared)
+Public Key: C:\Users\<User>\vastai\.ssh\anirban-anodiam-ssh-key.pub   (this is to be pasted into Vast)
 ----------------------------------------------------------------------------------
+$> ssh -i C:\Users\<User>\vastai\.ssh/1120anirban-gmail-ssh-key -p 16247 root@185.230.133.7 -L 8080:localhost:8080
 
 
 
