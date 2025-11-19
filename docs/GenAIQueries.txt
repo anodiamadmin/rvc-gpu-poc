@@ -42,14 +42,29 @@ GPU: 0% 19°C, CPU: 0.14%, Status: success, running vastai/pytorch_cuda-12.9.1-a
 I do not need any output for the current query. Subsequent Gen AI queries will be about specific requirements on which I shall be seeking answers/ suggestions.
 ----------------------------------------------------------------------------------
 
-The Storage Volume and Instances were created via the vast.ai admin account anirban@anodiam.com.
+I have created 2 linux users 'anirban' & 'sayan' in my remote host and the home directories are /home/Anirban & /home/sayan respectively.
+I have created public-private key pairs for each user and modified the ssh config files in the windows laptops of each user so that Anirban and Sayan do ssh into remote host as 'anirban' & 'sayan' respectively and into each one's linux home directories.
 
-How do I connect to the instance via SSH from my local desktop (any CLI terminal) using anirban@anodiam.com?
+C:\Users\<windows-user>\.ssh\config file:
+Host vast-<instance-ID>
+    HostName <instance.external.IPv4.address>
+    User root
+    Port 16247
+    IdentityFile C:\Users\<windows-user>\.ssh\<linux-username>-vast-key
+    PubkeyAuthentication yes
+    StrictHostKeyChecking no
+    UserKnownHostsFile /dev/null
+    LocalForward 8080 localhost:8080
+    RemoteCommand sudo -i -u <linux-username>
+    RequestTTY yes
 
-C:\Users\User\vastai\.ssh> ssh-keygen -t ed25519 -C "anirban@anodiam.com"
-Private Key: C:\Users\User\vastai\.ssh\anirban-anodiam-ssh-key   (keep this secret, never share)
-Public Key: C:\Users\User\vastai\.ssh\anirban-anodiam-ssh-key.pub   (this is what you paste into Vast)
+C:\Users\<windows-user>\.ssh> ssh vast-<instance-ID> -L 8080:localhost:8080
 
+This is working fine as of now.
+
+Subsequently, we want to log in through our VS codes and into our respective folders on remote host.
+
+Give me step by step detailed lucid instructions for logging in through VS code into linux remote host from our respective windows laptops.
 
 ----------------------------------------------------------------------------------
 
@@ -62,32 +77,3 @@ How do I verify that the Instance can be connected via SSH?
 2. preferably by developer accounts, 1120anirban@gmail.com (Anirban) & sayan@anodiam.com (Sayan)
 Give me step by step detailed guidance.
 ----------------------------------------------------------------------------------
-
-IP & Port Info:
-Instance ID: 27915353
-Machine Copy Port: 16283
-Public IP Address: 185.230.133.7
-Instance Port Range: 16203-16263
-Ip Address Type: Static
-Local IP Addresses: 192.168.4.102 172.17.0.1
-Open Ports:
-185.230.133.7:16215 -> 1111/tcp
-185.230.133.7:16251 -> 16251/tcp
-185.230.133.7:16247 -> 22/tcp
-185.230.133.7:16203 -> 6006/tcp
-185.230.133.7:16263 -> 8080/tcp
-185.230.133.7:16243 -> 8384/tcp
-
-
-
-I want the developer accounts, 1120anirban@gmail.com (Anirban) & sayan@anodiam.com (Sayan) to access the GPU machine by SSH connection through their VS-Code  running on their personal laptops. Give me step by step guidance.
-
-
-
-
-
-
-
-
-
-
