@@ -1,20 +1,4 @@
-Following is the project description for "PoC: RVC cloud GPU" for Gen AI attention.
-
-PoC for "Retrieval Based Voice Cloning (RVC) AI Dev - on cloud VM.
-- Train & infer on vast.ai's remote GPU Debian VM.
-- Zero-shot-training of RVC model with different user voices.
-- Infer voice outputs in specific trained voice for any amount of speech.
-
-Git repo (public): https://github.com/anodiamadmin/rvc-gpu-poc
-Github users: Admin - anirban@anodiam.com; Dev - 1120anirban@gmail.com (Anirban) & sayan@anodiam.com (Sayan)
-
-Windows local user names: User (Anirban) & hp (Sayan).
-
-Developers are required to connect Remote Host by SSH from local VS-Code on their Windows 11 laptops to develop (edit) the codebase.
-The codebase must be linked to the above Github repository.
-
-The vast.ai Storage Volume (Persistent Disk) mounted on the Remote Host will contain all the code and required setup (and installations) for the project.
-It will also contain all the models, training data for users' voice samples and the inferenced voice outputs (RVC generated speech).
+Following is for your attention and I do not want any output/ response from this query. I shall fire subsequent queries depending on this, for which I shall require your response.
 
 The following are ready in vast.ai
 
@@ -39,41 +23,30 @@ Motherboard: MJ11-EC1-OT: PCIE 3.0/8x: 6.3 GB/s
 Open: Access your Web UI at the port specified in your environment OPEN_BUTTON_PORT variable.
 GPU: 0% 19°C, CPU: 0.14%, Status: success, running vastai/pytorch_cuda-12.9.1-auto/jupyter
 
-I do not need any output for the current query. Subsequent Gen AI queries will be about specific requirements on which I shall be seeking answers/ suggestions.
-----------------------------------------------------------------------------------
+Also, I can connect to the Vast.ai VM instance from my local windows VS Code terminal as root. Next, change to linux user (anirban/ sayan) by the following command.
+sudo -i -u <linux-username>
 
-I have created 2 linux users 'anirban' & 'sayan' in my remote host and the home directories are /home/Anirban & /home/sayan respectively.
-I have created public-private key pairs for each user and modified the ssh config files in the windows laptops of each user so that Anirban and Sayan do ssh into remote host as 'anirban' & 'sayan' respectively and into each one's linux home directories.
+From there, I can git login and SSH to my Github repo https://github.com/anodiamadmin/rvc-gpu-poc as Github user 1120anirban@gmail.com or sayan@anodiam.com respectively. By the following commands.
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/<linux-username>-git-key
+ssh -T git@github.com
 
-C:\Users\<windows-user>\.ssh\config file:
-Host vast-<instance-ID>
-    HostName <instance.external.IPv4.address>
-    User root
-    Port 16247
-    IdentityFile C:\Users\<windows-user>\.ssh\<linux-username>-vast-key
-    PubkeyAuthentication yes
-    StrictHostKeyChecking no
-    UserKnownHostsFile /dev/null
-    LocalForward 8080 localhost:8080
-    RemoteCommand sudo -i -u <linux-username>
-    RequestTTY yes
+-------------------------------------------------------------------------------
 
-C:\Users\<windows-user>\.ssh> ssh vast-<instance-ID> -L 8080:localhost:8080
+By the following commands, I have already created user directories (e.g. /home/anirban and /home/sayan):
+$> adduser <linux-username>
+$> usermod -aG sudo <linux-username>
+$> sudo -i -u <linux-username>
+But I suspect, these user directories are bu default, created on my boot disk and not on the persistent disk.
+I have also, already connected to Github through SSH and successfully git cloned Github repo https://github.com/anodiamadmin/rvc-gpu-poc into those as Github user 1120anirban@gmail.com or sayan@anodiam.com respectively by these commands:
+$> eval "$(ssh-agent -s)"
+$> ssh-add ~/.ssh/<linux-username>-git-key
+$> ssh -T git@github.com
+$> git clone https://github.com/anodiamadmin/rvc-gpu-poc
 
-This is working fine as of now.
+I want to make sure that the /home/<linux-username> directories (e.g. /home/anirban and /home/sayan) are all created on the mounted persistent disk. How do I achieve that? Give me detailed step by step instructions.
 
-Subsequently, we want to log in through our VS codes and into our respective folders on remote host.
+Also, first let me know if I need to revert any steps in my set-up. Next, the steps to proceed. If you have any doubts or questions feel free to ask and clarify.
 
-Give me step by step detailed lucid instructions for logging in through VS code into linux remote host from our respective windows laptops.
+-------------------------------------------------------------------------------
 
-----------------------------------------------------------------------------------
-
-
-
-
-
-How do I verify that the Instance can be connected via SSH? 
-1. By vast.ai admin account anirban@anodiam.com
-2. preferably by developer accounts, 1120anirban@gmail.com (Anirban) & sayan@anodiam.com (Sayan)
-Give me step by step detailed guidance.
-----------------------------------------------------------------------------------
