@@ -62,9 +62,6 @@ Else if we need to do the same only via CLI at VS Code Terminal and Linux prompt
 -------------------------------------------------------------------------------
 
 
-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
-
-
 -------------------------------------------------------------------------------
 Github user anodiamadmin owns public repository https://github.com/anodiamadmin/rvc-gpu-poc
 Github users 1120anirban and sayan are added to this repo as collaborators. These 2 users (and similar future collaborators) will do all the development in this repository from remote vast ai cloud VM and through VS Code. They will use the following .ssh keys to access the repository. (similar for sayan)
