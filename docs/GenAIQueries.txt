@@ -49,4 +49,14 @@ I want to make sure that the /home/<linux-username> directories (e.g. /home/anir
 Also, first let me know if I need to revert any steps in my set-up. Next, the steps to proceed. If you have any doubts or questions feel free to ask and clarify.
 
 -------------------------------------------------------------------------------
+We have a vast.ai Debian Linux machine on which Sayan and I are doing development. We are using VS Code from our Windows machine to SSH into the remote vast.ai Debian Linux host machine. Our dev codes are in /data/home/<linux-username> folders where the sudo users' <linux-username>s are sayan and anirban while the Github users are sayan@anodiam.com and 1120anirban@gmail.com respectively. anirban@anodiam.com owns the git repo https://github.com/anodiamadmin/rvc-gpu-poc.git
 
+Our developed app will deal with FASTapi, React, RVC and other AI models and Python development, Terraform, Docker, Kubernetes, GCP Cloud, MS Office and PDF documents and artefacts, MySQL etc.
+
+We have connected and ssh-ed into Github and cloned the repo rvc-gpu-poc through the command [git clone https://github.com/anodiamadmin/rvc-gpu-poc.git] into /data/home/<linux-username>/rvc-gpu-poc folder.
+
+Is there any way so that we could use some GUI like Github desktop to do the rest of Github version control and management in our scenario? If so please give me the step by step detailed instructions of how to do our Github version control and management of the code and artefacts we develop?
+
+Else if we need to do the same only via CLI at VS Code Terminal and Linux prompt as sudo users anirban or sayan give me a list of all possible git commands we may need with their explanations so that we could copy and paste those commands and use the same for our Github version control and management of the full stack code and artefacts.
+
+-------------------------------------------------------------------------------
