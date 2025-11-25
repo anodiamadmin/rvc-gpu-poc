@@ -59,3 +59,17 @@ ehthumbs.db
 
 venv-*
 backup*
+
+# Temporary MS Office files
+~$*
+*.tmp
+*.xlk
+*.xlm
+*.xlt
+*.xlw
+*.docm
+*.dotm
+*.ppam
+*.potm
+*.thmx
+*.xlam
