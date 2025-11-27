@@ -60,9 +60,6 @@ Is there any way so that we could use some GUI like Github desktop to do the res
 Else if we need to do the same only via CLI at VS Code Terminal and Linux prompt as sudo users anirban or sayan give me a list of all possible git commands we may need with their explanations so that we could copy and paste those commands and use the same for our Github version control and management of the full stack code and artefacts.
 
 -------------------------------------------------------------------------------
-
-
--------------------------------------------------------------------------------
 Github user anodiamadmin owns public repository https://github.com/anodiamadmin/rvc-gpu-poc
 Github users 1120anirban and sayan are added to this repo as collaborators. These 2 users (and similar future collaborators) will do all the development in this repository from remote vast ai cloud VM and through VS Code. They will use the following .ssh keys to access the repository. (similar for sayan)
 /data/home/1120anirban/.ssh
@@ -73,3 +70,4 @@ Github users 1120anirban and sayan are added to this repo as collaborators. Thes
 anirban-git-key.pub and sayanan-git-key.pub are already added into https://github.com/settings/keys of anirban and sayan respectively.
 Repository has been cloned into /data/home/1120anirban/rvc-gpu-poc folder
 Give me step by step instructions no how to set up git, pull, push, staging etc. of dev artefacts from CLI of VS Code.
+-------------------------------------------------------------------------------

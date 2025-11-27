@@ -1,0 +1,123 @@
+Use Case:
+Create a web/ mobile app (React FastAPI, MySQL and AI Model) where users can upload training voices. For each training voice, AI Model should learn the features like:
+- Acoustic/Physiological Features: Timbre (Voice Quality), Pitch (Fundamental Frequency), Loudness (Intensity)
+- Linguistic/Behavioral Features: Accent and Dialect, Tone (Prosody/Intonation), Speech Rate and Rhythm (Tempo and Cadence)
+
+Users can also upload texts of any length. Finally, an user can ask the app to generate speech output for the text in any of the training voices that the AI model has been trained in. The Model will infer text to speech and the speech should be in the exact Acoustic/Physiological and Linguistic/Behavioral features of the particular training voice. So this use case has 2 components: text to speech and voice cloning. 
+
+High Priority considerations:
+- Open-source/ Free Licence models
+- Exact Voice Cloning
+- Zero shot or minimal training
+- industry standard for AI covers and "deepfake" voice acting/ cloning
+- English Language and common accents only
+
+Not considered now, may be in later use cases:
+- Real-Time Voice Cloning
+- Musical vocals
+- Multilingual voice output
+
+OpenVoice-V2 is the chosen/ prioritized AI model considering the best zero-shot cloning + easiest deployment + ready API + MIT License (Free for commercial use).
+
+Running Docker is infeasible on Vast AI images. Therefor we are doing the PoC on the remote instance below in vast.ai 
+
+Storage: 1
+You have 1 volume available
+Local-27915352: Unverified; Size: 100 GB; Instances: 1
+Cost: $0.20/mo; Expires: January 1, 2026 9:55 AM
+Volume Information
+Name: Local-27915352; ID: 27915352; Machine ID: 45075; Type: Local Volume; Size: 100 GB; Cost: $0.20/mo; Location: Austria, AT
+Rented: November 16, 2025 7:55 PM; Expires: January 1, 2026 9:55 AM
+Instances using this volume: 1; Instance ID: 27915353
+
+Instances: 1
+1x RTX 3090: Unverified: 185.230.133.7: 18m: 1 mon 15d: <$0.001/hr
+Instance ID: 27915353; Host: 297758; Machine ID: 45075; Vol: Local-27915352
+Max CUDA: 13.0: 35.3 TFLOPS: VRAM 0/24.0GB: 805.2 GB/s
+DLPerf: 805.2 DLP/$/hr
+Network: 100 ports: 8.2 Mbps up: 32.9 Mbps down
+CPU: AMD EPYC 3151 4-Core Processor: 4.0/4 CPU: 0 / 32.0 GB
+Disk: BIWIN M350 1000GB: 2723.4 MB/s: 0.0 / 100.0 GB
+Motherboard: MJ11-EC1-OT: PCIE 3.0/8x: 6.3 GB/s
+Open: Access your Web UI at the port specified in your environment OPEN_BUTTON_PORT variable.
+GPU: 0% 19°C, CPU: 0.14%, Status: success, running vastai/pytorch_cuda-12.9.1-auto/jupyter
+
+We are doing the PoC only as the root user (no separate developers for Sayan and Anirban) for simplicity. The persistent disk is mounted at the folder /data.
+
+We have done the following without any error, to set up OpenVoice-V2 directly (docker free) on our Vast.ai remote instance:
+cd /data
+sudo apt-get update
+sudo apt-get install -y git python3.10 python3.10-venv ffmpeg
+python3 -m venv openvoice-env
+source openvoice-env/bin/activate
+git clone https://github.com/myshell-ai/OpenVoice.git
+cd OpenVoice
+pip install --upgrade pip
+pip install -e .
+
+Following is the directory structure of the git cloned OpenVoice project:
+(main) root@C.27915353:/workspace$ cd /data/OpenVoice/
+(main) root@C.27915353:/data/OpenVoice$ ls -al
+total 56
+drwxrwxr-x 7 root root 4096 Nov 27 07:03 .
+drwxr-xr-x 7 root root   83 Nov 27 07:02 ..
+drwxrwxr-x 8 root root  181 Nov 27 07:46 .git
+-rw-rw-r-- 1 root root  134 Nov 27 07:02 .gitignore
+-rw-rw-r-- 1 root root 1057 Nov 27 07:02 LICENSE
+drwxrwxr-x 2 root root  130 Nov 27 07:44 MyShell_OpenVoice.egg-info
+-rw-rw-r-- 1 root root 3120 Nov 27 07:02 README.md
+-rw-rw-r-- 1 root root 7365 Nov 27 07:02 demo_part1.ipynb
+-rw-rw-r-- 1 root root 6835 Nov 27 07:02 demo_part2.ipynb
+-rw-rw-r-- 1 root root 4869 Nov 27 07:02 demo_part3.ipynb
+drwxrwxr-x 2 root root   35 Nov 27 07:02 docs
+drwxrwxr-x 3 root root 4096 Nov 27 07:02 openvoice
+-rw-rw-r-- 1 root root  253 Nov 27 07:02 requirements.txt
+drwxrwxr-x 2 root root 4096 Nov 27 07:02 resources
+-rw-rw-r-- 1 root root 1481 Nov 27 07:02 setup.py
+(main) root@C.27915353:/data/OpenVoice$ cd openvoice/
+(main) root@C.27915353:/data/OpenVoice/openvoice$ ls -al
+total 124
+drwxrwxr-x 3 root root  4096 Nov 27 07:02 .
+drwxrwxr-x 7 root root  4096 Nov 27 07:03 ..
+-rw-rw-r-- 1 root root     0 Nov 27 07:02 __init__.py
+-rw-rw-r-- 1 root root  7823 Nov 27 07:02 api.py
+-rw-rw-r-- 1 root root 16360 Nov 27 07:02 attentions.py
+-rw-rw-r-- 1 root root  4956 Nov 27 07:02 commons.py
+-rw-rw-r-- 1 root root  6098 Nov 27 07:02 mel_processing.py
+-rw-rw-r-- 1 root root 16801 Nov 27 07:02 models.py
+-rw-rw-r-- 1 root root 19010 Nov 27 07:02 modules.py
+-rw-rw-r-- 1 root root 11625 Nov 27 07:02 openvoice_app.py
+-rw-rw-r-- 1 root root  5145 Nov 27 07:02 se_extractor.py
+drwxrwxr-x 2 root root    99 Nov 27 07:02 text
+-rw-rw-r-- 1 root root  7253 Nov 27 07:02 transforms.py
+-rw-rw-r-- 1 root root  5776 Nov 27 07:02 utils.py
+
+We are on the virtual environment below: 
+(main) root@C.27915353:/data/OpenVoice/openvoice$ python3 -m venv openvoice-env
+(main) root@C.27915353:/data/OpenVoice/openvoice$ source openvoice-env/bin/activate
+((openvoice-env) ) (main) root@C.27915353:/data/OpenVoice/openvoice$
+
+Now, as per documentation in OpenVoice's Github (https://github.com/myshell-ai/OpenVoice/blob/main/docs/USAGE.md) we have:
+OpenVoice V2:
+Download the checkpoint from here (https://myshell-public-repo-host.s3.amazonaws.com/openvoice/checkpoints_v2_0417.zip) and extract it to the checkpoints_v2 folder.
+
+Install MeloTTS:
+pip install git+https://github.com/myshell-ai/MeloTTS.git
+python -m unidic download
+
+Demo Usage. Please see demo_part3.ipynb for example usage of OpenVoice V2. Now it natively supports English, Spanish, French, Chinese, Japanese and Korean.
+
+I do not want you to answer this query. This is just for your attention about the synopsis of my project as of now. I shall ask specific questions subsequently which I would like you to answer.
+
+-------------------------------------------------------------------------------
+
+Following 3 are my Queries as per the context given to ChatGPT:
+# 1. Give me the detailed, step by step instructions on how to (command to) download and zip extract the checkpoint from https://myshell-public-repo-host.s3.amazonaws.com/openvoice/checkpoints_v2_0417.zip into to the checkpoints_v2 folder.
+# 2. Next commands, correct me if I am wrong, are probably:
+pip install git+https://github.com/myshell-ai/MeloTTS.git
+python -m unidic download
+# 3. After that, correct me if I am wrong, we will follow demo_part3.ipynb from Demo Usage above, for training and inferencing of the model. We will use FastAPI following the steps given in demo_part3.ipynb.
+
+
+-------------------------------------------------------------------------------------
+
