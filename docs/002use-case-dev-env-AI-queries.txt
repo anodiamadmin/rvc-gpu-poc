@@ -48,16 +48,12 @@ We have done the following without any error, to set up OpenVoice-V2 directly (d
 cd /data
 sudo apt-get update
 sudo apt-get install -y git python3.10 python3.10-venv ffmpeg
-python3 -m venv openvoice-env
+python3.10 -m venv openvoice-env
 source openvoice-env/bin/activate
 git clone https://github.com/myshell-ai/OpenVoice.git
-cd OpenVoice
-pip install --upgrade pip
-pip install -e .
 
 Following is the directory structure of the git cloned OpenVoice project:
-(main) root@C.27915353:/workspace$ cd /data/OpenVoice/
-(main) root@C.27915353:/data/OpenVoice$ ls -al
+$> ls -al /data/OpenVoice/
 total 56
 drwxrwxr-x 7 root root 4096 Nov 27 07:03 .
 drwxr-xr-x 7 root root   83 Nov 27 07:02 ..
@@ -74,8 +70,8 @@ drwxrwxr-x 3 root root 4096 Nov 27 07:02 openvoice
 -rw-rw-r-- 1 root root  253 Nov 27 07:02 requirements.txt
 drwxrwxr-x 2 root root 4096 Nov 27 07:02 resources
 -rw-rw-r-- 1 root root 1481 Nov 27 07:02 setup.py
-(main) root@C.27915353:/data/OpenVoice$ cd openvoice/
-(main) root@C.27915353:/data/OpenVoice/openvoice$ ls -al
+
+$> ls -al /data/OpenVoice/openvoice/
 total 124
 drwxrwxr-x 3 root root  4096 Nov 27 07:02 .
 drwxrwxr-x 7 root root  4096 Nov 27 07:03 ..
@@ -91,6 +87,12 @@ drwxrwxr-x 7 root root  4096 Nov 27 07:03 ..
 drwxrwxr-x 2 root root    99 Nov 27 07:02 text
 -rw-rw-r-- 1 root root  7253 Nov 27 07:02 transforms.py
 -rw-rw-r-- 1 root root  5776 Nov 27 07:02 utils.py
+
+Update /data/OpenVoice/requirements.txt file >> change the line "faster-whisper==0.9.0" to "faster-whisper>=0.12.0"
+Update /data/OpenVoice/setup.py file >> change "install_requires" section >> the line "faster-whisper==0.9.0" to "faster-whisper>=0.12.0"
+cd OpenVoice
+pip install --upgrade pip
+pip install -e .
 
 We are on the virtual environment below: 
 (main) root@C.27915353:/data/OpenVoice/openvoice$ python3 -m venv openvoice-env
