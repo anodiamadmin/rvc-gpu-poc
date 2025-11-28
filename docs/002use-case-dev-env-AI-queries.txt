@@ -42,17 +42,36 @@ Motherboard: MJ11-EC1-OT: PCIE 3.0/8x: 6.3 GB/s
 Open: Access your Web UI at the port specified in your environment OPEN_BUTTON_PORT variable.
 GPU: 0% 19°C, CPU: 0.14%, Status: success, running vastai/pytorch_cuda-12.9.1-auto/jupyter
 
-We are doing the PoC only as the root user (no separate developers for Sayan and Anirban) for simplicity. The persistent disk is mounted at the folder /data.
+We are doing the PoC only as the root user (no separate developers for Sayan and Anirban) for simplicity. The persistent disk is mounted at the folder /data/
 
-We have done the following without any error, to set up OpenVoice-V2 directly (docker free) on our Vast.ai remote instance:
-cd /data
-sudo apt-get update
-sudo apt-get install -y git python3.10 python3.10-venv ffmpeg
-python3.10 -m venv openvoice-env
-source openvoice-env/bin/activate
-git clone https://github.com/myshell-ai/OpenVoice.git
+Setup so far:
+Inside /data/ folder we installed git, python3.10, python3.10-venv and ffmpeg.
+Git Cloned OpenVoice repository https://github.com/myshell-ai/OpenVoice.git
+Inside /data/OpenVoice/ folder we Created and activated virtual environment named openvoice-env with Python 3.10
+Next we upgraded pip to the lates version and made some adjustments at requirements.txt and setup.py files (changing "faster-whisper==0.9.0" to "faster-whisper>=0.12.0") to ensure all dependencies below are installed by pip install -e .
+librosa==0.9.1
+faster-whisper>=0.12.0
+pydub==0.25.1
+wavmark==0.0.3
+numpy==1.22.0
+eng_to_ipa==0.0.2
+inflect==7.0.0
+unidecode==1.3.7
+whisper-timestamped==1.14.2
+openai
+python-dotenv
+pypinyin==0.50.0
+cn2an==0.5.22
+jieba==0.42.1
+gradio==3.48.0
+langid==1.1.6
 
-Following is the directory structure of the git cloned OpenVoice project:
+Then we downloaded and unzipped https://myshell-public-repo-host.s3.amazonaws.com/openvoice/checkpoints_v2_0417.zip into the /data/OpenVoice/checkpoints_v2/ folder.
+
+Then we installed Melo TTS from git+https://github.com/myshell-ai/MeloTTS.git and confirmed.
+We downloaded unidic.
+
+Following is the directory structure of the OpenVoice project:
 $> ls -al /data/OpenVoice/
 total 56
 drwxrwxr-x 7 root root 4096 Nov 27 07:03 .
@@ -88,38 +107,121 @@ drwxrwxr-x 2 root root    99 Nov 27 07:02 text
 -rw-rw-r-- 1 root root  7253 Nov 27 07:02 transforms.py
 -rw-rw-r-- 1 root root  5776 Nov 27 07:02 utils.py
 
-Update /data/OpenVoice/requirements.txt file >> change the line "faster-whisper==0.9.0" to "faster-whisper>=0.12.0"
-Update /data/OpenVoice/setup.py file >> change "install_requires" section >> the line "faster-whisper==0.9.0" to "faster-whisper>=0.12.0"
-cd OpenVoice
-pip install --upgrade pip
-pip install -e .
+$ ls -al /data/OpenVoice/checkpoints_v2/base_speakers/ses/
+total 44
+drwxr-xr-x 2 root root  190 Apr 17  2024 .
+drwxr-xr-x 3 root root   17 Apr 17  2024 ..
+-rw-r--r-- 1 root root 1701 Apr 17  2024 en-au.pth
+-rw-r--r-- 1 root root 1701 Apr 17  2024 en-br.pth
+-rw-r--r-- 1 root root 1783 Apr 17  2024 en-default.pth
+-rw-r--r-- 1 root root 1701 Apr 17  2024 en-india.pth
+-rw-r--r-- 1 root root 1692 Apr 17  2024 en-newest.pth
+-rw-r--r-- 1 root root 1701 Apr 17  2024 en-us.pth
+-rw-r--r-- 1 root root 1692 Apr 17  2024 es.pth
+-rw-r--r-- 1 root root 1692 Apr 17  2024 fr.pth
+-rw-r--r-- 1 root root 1692 Apr 17  2024 jp.pth
+-rw-r--r-- 1 root root 1692 Apr 17  2024 kr.pth
+-rw-r--r-- 1 root root 1692 Apr 17  2024 zh.pth
 
-We are on the virtual environment below: 
-(main) root@C.27915353:/data/OpenVoice/openvoice$ python3 -m venv openvoice-env
-(main) root@C.27915353:/data/OpenVoice/openvoice$ source openvoice-env/bin/activate
-((openvoice-env) ) (main) root@C.27915353:/data/OpenVoice/openvoice$
+$ ls -al /data/OpenVoice/checkpoints_v2/converter/        
+total 128248
+drwxr-xr-x 2 root root        47 Apr 17  2024 .
+drwxr-xr-x 4 root root        44 Apr 17  2024 ..
+-rw-r--r-- 1 root root 131320490 Apr 17  2024 checkpoint.pth
+-rw-r--r-- 1 root root       838 Apr 17  2024 config.json
 
-Now, as per documentation in OpenVoice's Github (https://github.com/myshell-ai/OpenVoice/blob/main/docs/USAGE.md) we have:
-OpenVoice V2:
-Download the checkpoint from here (https://myshell-public-repo-host.s3.amazonaws.com/openvoice/checkpoints_v2_0417.zip) and extract it to the checkpoints_v2 folder.
+According to https://github.com/myshell-ai/OpenVoice/blob/main/docs/USAGE.md it says, for OpenVoice V2:
+Download the checkpoint into the checkpoints_v2 folder.
+Install MeloTTS and download unidic
+Demo Usage: Please see demo_part3.ipynb (below) for example usage of OpenVoice V2. Now it natively supports English, Spanish, French, Chinese, Japanese and Korean.
 
-Install MeloTTS:
-pip install git+https://github.com/myshell-ai/MeloTTS.git
-python -m unidic download
+Contents of demo_part3.ipynb is as follows:
+Multi-Accent and Multi-Lingual Voice Clone Demo with MeloTTS
+import os
+import torch
+from openvoice import se_extractor
+from openvoice.api import ToneColorConverter
+Initialization
+In this example, we will use the checkpoints from OpenVoiceV2. OpenVoiceV2 is trained with more aggressive augmentations and thus demonstrate better robustness in some cases.
 
-Demo Usage. Please see demo_part3.ipynb for example usage of OpenVoice V2. Now it natively supports English, Spanish, French, Chinese, Japanese and Korean.
+ckpt_converter = 'checkpoints_v2/converter'
+device = "cuda:0" if torch.cuda.is_available() else "cpu"
+output_dir = 'outputs_v2'
 
-I do not want you to answer this query. This is just for your attention about the synopsis of my project as of now. I shall ask specific questions subsequently which I would like you to answer.
+tone_color_converter = ToneColorConverter(f'{ckpt_converter}/config.json', device=device)
+tone_color_converter.load_ckpt(f'{ckpt_converter}/checkpoint.pth')
 
--------------------------------------------------------------------------------
+os.makedirs(output_dir, exist_ok=True)
+Obtain Tone Color Embedding
+We only extract the tone color embedding for the target speaker. The source tone color embeddings can be directly loaded from checkpoints_v2/ses folder.
 
-Following 3 are my Queries as per the context given to ChatGPT:
-# 1. Give me the detailed, step by step instructions on how to (command to) download and zip extract the checkpoint from https://myshell-public-repo-host.s3.amazonaws.com/openvoice/checkpoints_v2_0417.zip into to the checkpoints_v2 folder.
-# 2. Next commands, correct me if I am wrong, are probably:
-pip install git+https://github.com/myshell-ai/MeloTTS.git
-python -m unidic download
-# 3. After that, correct me if I am wrong, we will follow demo_part3.ipynb from Demo Usage above, for training and inferencing of the model. We will use FastAPI following the steps given in demo_part3.ipynb.
+reference_speaker = 'resources/example_reference.mp3' # This is the voice you want to clone
+target_se, audio_name = se_extractor.get_se(reference_speaker, tone_color_converter, vad=True)
+Use MeloTTS as Base Speakers
+MeloTTS is a high-quality multi-lingual text-to-speech library by @MyShell.ai, supporting languages including English (American, British, Indian, Australian, Default), Spanish, French, Chinese, Japanese, Korean. In the following example, we will use the models in MeloTTS as the base speakers.
+
+from melo.api import TTS
+
+texts = {
+    'EN_NEWEST': "Did you ever hear a folk tale about a giant turtle?",  # The newest English base speaker model
+    'EN': "Did you ever hear a folk tale about a giant turtle?",
+    'ES': "El resplandor del sol acaricia las olas, pintando el cielo con una paleta deslumbrante.",
+    'FR': "La lueur dorée du soleil caresse les vagues, peignant le ciel d'une palette éblouissante.",
+    'ZH': "在这次vacation中，我们计划去Paris欣赏埃菲尔铁塔和卢浮宫的美景。",
+    'JP': "彼は毎朝ジョギングをして体を健康に保っています。",
+    'KR': "안녕하세요! 오늘은 날씨가 정말 좋네요.",
+}
 
 
--------------------------------------------------------------------------------------
+src_path = f'{output_dir}/tmp.wav'
+
+# Speed is adjustable
+speed = 1.0
+
+for language, text in texts.items():
+    model = TTS(language=language, device=device)
+    speaker_ids = model.hps.data.spk2id
+    
+    for speaker_key in speaker_ids.keys():
+        speaker_id = speaker_ids[speaker_key]
+        speaker_key = speaker_key.lower().replace('_', '-')
+        
+        source_se = torch.load(f'checkpoints_v2/base_speakers/ses/{speaker_key}.pth', map_location=device)
+        if torch.backends.mps.is_available() and device == 'cpu':
+            torch.backends.mps.is_available = lambda: False
+        model.tts_to_file(text, speaker_id, src_path, speed=speed)
+        save_path = f'{output_dir}/output_v2_{speaker_key}.wav'
+
+        # Run the tone color converter
+        encode_message = "@MyShell"
+        tone_color_converter.convert(
+            audio_src_path=src_path, 
+            src_se=source_se, 
+            tgt_se=target_se, 
+            output_path=save_path,
+            message=encode_message)
+
+As of now the above has been done in our Voice Cloning Project. This is for your attention only and I will ask subsequent queries according to the above.
+------------------------------------------------------------------------------------------------------------------------------------
+
+Suggest me detailed step by step instructions on How to proceed with training, inferencing etc. Do I need to write any wrapper FastAPI code? or the python files in /data/OpenVoice/openvoice folders are sufficient? How do I (if required write new code or)run the existing code to achieve the objective of the project by training and inferencing?
+You already suggested me to ask:
+How to run OpenVoice-V2 inference on your own voice samples
+How to extract tone color embedding from any uploaded .wav
+How to build a FastAPI server for voice cloning
+How to expose REST endpoints like:
+ /train_voice
+ /clone_voice
+ /list_voices
+ /synthesize
+How to integrate it with React / TypeScript UI
+How to store voice metadata in MySQL
+How to handle audio uploads
+How to deploy everything on Vast.ai (without Docker)
+How to add batching, GPU usage, logging, memory optimization
+How to implement your own "Voice Identity System" (voice_id_0, voice_id_1, etc.)
+
+Which step do I start now first, by what sequence shall we proceed?
+
+------------------------------------------------------------------------------------------------------------------------------------
 
