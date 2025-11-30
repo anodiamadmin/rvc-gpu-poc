@@ -225,3 +225,16 @@ Which step do I start now first, by what sequence shall we proceed?
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
+I (Anirban) am logged in as root and in /data/OpenVoice folder in my Vast.ai remote Ubuntu server. I have Git downloaded the external repo git clone https://github.com/myshell-ai/OpenVoice.git to create my "OpenVoiceV2-PoC" project by doing some changes in the same code base. I want to save the same project in my own repo (to be created) https://github.com/anodiamadmin/openvoicev2-poc with owner=anirban@anodiam.com, collaborators=[1120anirban@anodiam.com, sayan@anodiam.com] so that both Sayan and I both can ssh into my Vast.ai remote Ubuntu server from our windows 11 machines and through VS Code as root (linux user) and manage the version control (Git) of the current repo. Give me the detailed step by step instructions and linux git commands we should follow to set up and also regularly use to achieve this. Also provide any other setup guidance like ssh key, collaborator access etc. that I may need to follow using any GUI etc.
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+If you want, I can next provide:
+A FastAPI server file (api_server.py) with:
+/voices/upload
+/voices/list
+/synthesize
+OR
+A complete end-to-end sequence:
+“Exactly what file to create next, how to test, how to structure directories.”
+Just tell me: “Give me the FastAPI server code now” or “Tell me the next step.”
